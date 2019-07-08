@@ -28,7 +28,7 @@ public class Product extends javax.swing.JFrame {
      */
     public Product() {
         initComponents();
-       // table_update();//poziva ispis stavki iz baze u JTable
+       table_update();//poziva ispis stavki iz baze u JTable
         category();//poziva donju metodu
         brand();
     }
@@ -141,7 +141,10 @@ public class Product extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
-            pst = con1.prepareStatement("select * from brand_table");
+            //merging 3 tables using sql querry with where clause
+            pst = con1.prepareStatement("select p.id_product, p.product, p.description, c.category, b.brand,p.cost_price,p.retail_price,p.qty,p.barcode,p.status "
+                    + "from product p, category c, brand_table b " 
+                    + "where p.cat_id = c.ID and p.brand_id = b.ID_brand");
             ResultSet rs = pst.executeQuery();
             //vraća broj kolona
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -150,13 +153,21 @@ public class Product extends javax.swing.JFrame {
             DefaultTableModel d = (DefaultTableModel) table_category.getModel();
             d.setRowCount(0);
 
-            //Implementira LIST<E>
+            //Vector class implements  LIST<E>
             while (rs.next()) {
                 Vector v2 = new Vector();
                 for (int i = 1; i < c; i++) {
-                    v2.add(rs.getString("id_brand"));//jer je izmjenjeno ime id-a u novoj tabeli da bi se moglo razlikovati
+                    v2.add(rs.getString("id_product"));//adding columns in JTable from SQL querry
+                    v2.add(rs.getString("product"));
+                    v2.add(rs.getString("description"));
+                    v2.add(rs.getString("category"));
                     v2.add(rs.getString("brand"));
+                    v2.add(rs.getString("cost_price"));
+                    v2.add(rs.getString("retail_price"));
+                    v2.add(rs.getString("qty"));
+                    v2.add(rs.getString("barcode"));
                     v2.add(rs.getString("status"));
+                    
                     
                 }
                 d.addRow(v2);
@@ -533,8 +544,8 @@ public class Product extends javax.swing.JFrame {
         String description=txtDescription.getText();
         CategoryItem catItem= (CategoryItem) combCategory.getSelectedItem();
         BrandItem brandItem =(BrandItem)combBrand.getSelectedItem();
-        String cprice = txtCostPrice.getText();
-        String rprice= txtRetailPrice.getText();
+        Double cprice = Double.parseDouble(txtCostPrice.getText());
+        Double rprice= Double.parseDouble(txtRetailPrice.getText());
         String quantity = txtQuantity.getText();
         String barcode = txtBarcode.getText();
         String status = txtStatus.getSelectedItem().toString();
@@ -549,8 +560,8 @@ public class Product extends javax.swing.JFrame {
             pst.setString(2, description);
             pst.setInt(3,catItem.id);
             pst.setInt(4,brandItem.id);
-            pst.setString(5,cprice);
-            pst.setString(6,rprice);
+            pst.setDouble(5,cprice);
+            pst.setDouble(6,rprice);
             pst.setString(7,quantity);
             pst.setString(8,barcode);
             pst.setString(9,status);
