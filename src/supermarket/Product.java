@@ -439,9 +439,8 @@ public class Product extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel14)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11)
+                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(combBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -525,29 +524,52 @@ public class Product extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:     
     }//GEN-LAST:event_txtProductActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        try {
-            String brand = txtProduct.getText();//izmjenjeno je ime varijable iz category u brand
-            String status = txtStatus.getSelectedItem().toString();
-
+            
+        String product = txtProduct.getText();
+        String description=txtDescription.getText();
+        CategoryItem catItem= (CategoryItem) combCategory.getSelectedItem();
+        BrandItem brandItem =(BrandItem)combBrand.getSelectedItem();
+        String cprice = txtCostPrice.getText();
+        String rprice= txtRetailPrice.getText();
+        String quantity = txtQuantity.getText();
+        String barcode = txtBarcode.getText();
+        String status = txtStatus.getSelectedItem().toString();
+        
+       try {
             //konekcija
             Class.forName("com.mysql.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
 
-            pst = con1.prepareStatement("insert into brand_table(brand, status) values (?,?)");
-            pst.setString(1, brand);// izmjenjeno je ime varijable
-            pst.setString(2, status);
+            pst = con1.prepareStatement("insert into product(product,description,cat_id,brand_id,cost_price,retail_price, qty,barcode,status) values (?,?,?,?,?,?,?,?,?)");
+            pst.setString(1, product);// izmjenjeno je ime varijable
+            pst.setString(2, description);
+            pst.setInt(3,catItem.id);
+            pst.setInt(4,brandItem.id);
+            pst.setString(5,cprice);
+            pst.setString(6,rprice);
+            pst.setString(7,quantity);
+            pst.setString(8,barcode);
+            pst.setString(9,status);
+                    
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Brand sucessfully added!");
+            JOptionPane.showMessageDialog(null, "Product sucessfully added!");
             //funkcija se poziva radi prikaza odmah nakon dodavanja novog proizvoda
             table_update();
             //Moraju se očistiti varijable
             txtProduct.setText("");
+            txtDescription.setText("");
+            combCategory.setSelectedIndex(-1);
+            combBrand.setSelectedIndex(-1);
+            txtCostPrice.setText("");
+            txtRetailPrice.setText("");
+            txtQuantity.setText("");
+            txtBarcode.setText("");
             txtStatus.setSelectedIndex(-1);
+            
             txtProduct.requestFocus();
 
         } catch (ClassNotFoundException ex) {
