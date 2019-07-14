@@ -599,6 +599,22 @@ public class Product extends javax.swing.JFrame {
 
         //postavlja tekst u labelu na osnovu selektovanog reda na klik miša
         txtProduct.setText(d1.getValueAt(selectedIndex, 1).toString());
+        txtDescription.setText(d1.getValueAt(selectedIndex, 2).toString());
+        combCategory.setSelectedItem(d1.getValueAt(selectedIndex, 3).toString());
+        combBrand.setSelectedItem(d1.getValueAt(selectedIndex, 4).toString());
+        txtCostPrice.setText(d1.getValueAt(selectedIndex, 5).toString());
+        txtRetailPrice.setText(d1.getValueAt(selectedIndex, 6).toString());
+        txtQuantity.setText(d1.getValueAt(selectedIndex, 7).toString());
+        txtBarcode.setText(d1.getValueAt(selectedIndex, 8).toString());
+        txtStatus.setSelectedItem(d1.getValueAt(selectedIndex, 9).toString());
+        
+        
+        
+        
+        
+        
+        
+        
         txtStatus.setSelectedItem(d1.getValueAt(selectedIndex, 2).toString());
     }//GEN-LAST:event_table_categoryMouseClicked
 
@@ -608,26 +624,51 @@ public class Product extends javax.swing.JFrame {
         int selectedIndex = table_category.getSelectedRow();
         //parsira odabrani objekt u intedžer iz kolone tri
         int id = Integer.parseInt(d1.getValueAt(selectedIndex, 0).toString());
-        String brand = txtProduct.getText();//izmjena varijable u brand
+        String product = txtProduct.getText();
+        String description=txtDescription.getText();
+        CategoryItem catItem= (CategoryItem) combCategory.getSelectedItem();
+        BrandItem brandItem =(BrandItem)combBrand.getSelectedItem();
+        Double cprice = Double.parseDouble(txtCostPrice.getText());
+        Double rprice= Double.parseDouble(txtRetailPrice.getText());
+        String quantity = txtQuantity.getText();
+        String barcode = txtBarcode.getText();
         String status = txtStatus.getSelectedItem().toString();
+        
 
         try {
             //POZIV DB
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
 
-        pst = con1.prepareStatement("update brand_table set brand=?, status=? where id_brand=?");//izmjenjena imena tabele i kolone iz category brand
-        pst.setString(1, brand);//izmjena varijable u brand; sve što je uneseno u varijablu bit će injektovano u SQL
-        pst.setString(2, status);
-        pst.setInt(3, id); 
+        pst = con1.prepareStatement("update product set product=?, description=?, cat_id=?, brand_id=?,cost_price=?, retail_price=?, qty=?, barcode=?,status=? where id_product=?");//izmjenjena imena tabele i kolone iz category brand
+        pst.setString(1, product);// izmjenjeno je ime varijable
+            pst.setString(2, description);
+            pst.setInt(3,catItem.id);
+            pst.setInt(4,brandItem.id);
+            pst.setDouble(5,cprice);
+            pst.setDouble(6,rprice);
+            pst.setString(7,quantity);
+            pst.setString(8,barcode);
+            pst.setString(9,status);
+        
+        pst.setInt(10, id); 
         pst.executeUpdate();
-        JOptionPane.showMessageDialog(null, "Brand sucessfully updated!");//izmjenjeno ime varijable
+        JOptionPane.showMessageDialog(null, "Product sucessfully updated!");//izmjenjeno ime varijable
         //funkcija se poziva radi prikaza odmah nakon dodavanja novog proizvoda
         table_update();
         //Moraju se očistiti varijable
         txtProduct.setText("");
-        txtStatus.setSelectedIndex(-1);
-        txtProduct.requestFocus();
+            txtDescription.setText("");
+            combCategory.setSelectedIndex(-1);
+            combBrand.setSelectedIndex(-1);
+            txtCostPrice.setText("");
+            txtRetailPrice.setText("");
+            txtQuantity.setText("");
+            txtBarcode.setText("");
+            txtStatus.setSelectedIndex(-1);
+            
+            txtProduct.requestFocus();
+
             
                      
         } catch (ClassNotFoundException ex) {
@@ -650,7 +691,7 @@ public class Product extends javax.swing.JFrame {
         int selectedIndex = table_category.getSelectedRow();
         
         int id=Integer.parseInt(d1.getValueAt(selectedIndex, 0).toString());
-        int dialogResult = JOptionPane.showConfirmDialog(null,"Do you want to delete selected category?","WARNING!!!",JOptionPane.YES_NO_OPTION);//pita dali treba obrisati stavku
+        int dialogResult = JOptionPane.showConfirmDialog(null,"Do you want to delete selected product?","WARNING!!!",JOptionPane.YES_NO_OPTION);//pita dali treba obrisati stavku
         
         //Šta uraditi u voisnosti od odgovora po if kontroli toka
         
@@ -659,16 +700,24 @@ public class Product extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 con1=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket","root","administrator");
-                pst =con1.prepareStatement("delete from brand_table where id_brand=?");//izmjena tabele i kolone
+                pst =con1.prepareStatement("delete from product where id_product=?");//izmjena tabele i kolone
                 pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Brand sucessfully deleted from a database!");//izmjena poruke
+                JOptionPane.showMessageDialog(null, "Product sucessfully deleted from a database!");//izmjena poruke
                 //funkcija se poziva radi prikaza odmah nakon dodavanja novog proizvoda
                 table_update();
                 //Moraju se očistiti varijable
                 txtProduct.setText("");
-                txtStatus.setSelectedIndex(-1);
-                txtProduct.requestFocus();
+            txtDescription.setText("");
+            combCategory.setSelectedIndex(-1);
+            combBrand.setSelectedIndex(-1);
+            txtCostPrice.setText("");
+            txtRetailPrice.setText("");
+            txtQuantity.setText("");
+            txtBarcode.setText("");
+            txtStatus.setSelectedIndex(-1);
+            
+            txtProduct.requestFocus();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
