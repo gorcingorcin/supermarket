@@ -581,8 +581,55 @@ pos();
            {
                lastInsertedId = generatedKey.getInt(1);              
            }
-           JOptionPane.showMessageDialog(this,lastInsertedId);
            
+           //ovaj kod prikazuje stavke u JTabeli
+           int rows =table_category.getRowCount();
+           
+           String querry2 = "insert into sales_product(sales_id,product_id,sell_price,quantity, total) values (?,?,?,?,?)";
+           insert = con1.prepareStatement(querry2);
+           
+           
+           String productId="";
+           String price="";
+           String quantity="";
+           int total=0;
+           
+           for(int i = 0; i<table_category.getRowCount(); i++)
+           {
+               productId=(String)table_category.getValueAt(i, 0);
+               price=(String)table_category.getValueAt(i, 2);
+               quantity=(String)table_category.getValueAt(i, 3);
+               total=(int)table_category.getValueAt(i, 4);
+               
+               insert.setInt(1,lastInsertedId);
+               insert.setString(2,productId);
+               insert.setString(3,price);
+               insert.setString(4,quantity);
+               insert.setInt(5,total);
+               insert.executeUpdate();
+               
+           }
+           
+           //Ovaj SQL oduzima prodatu kolicinu od ukupne kolicine
+            String querry3 = "update product set qty =qty-? where barcode=?";
+           insert = con1.prepareStatement(querry3);
+           
+           for(int i = 0; i<table_category.getRowCount(); i++)
+           {
+               productId=(String)table_category.getValueAt(i, 0);
+               quantity=(String)table_category.getValueAt(i, 3);
+               
+               
+               insert.setString(1,quantity);
+               insert.setString(2,productId);
+               insert.execute();
+               
+           }
+           
+           
+           
+           insert.addBatch();
+           JOptionPane.showMessageDialog(this,"Record saved");
            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
