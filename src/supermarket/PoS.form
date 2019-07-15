@@ -56,7 +56,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="btnDelete" max="32767" attributes="0"/>
-                                  <Component id="jButton2" pref="105" max="32767" attributes="0"/>
+                                  <Component id="btnPay" pref="105" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -98,7 +98,7 @@
                   <Component id="txtPayed" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtBalance" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" pref="61" max="-2" attributes="0"/>
+                  <Component id="btnPay" alignment="3" min="-2" pref="61" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -458,7 +458,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtBalance">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnPay">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="99" red="33" type="rgb"/>
@@ -468,6 +468,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Pay Invoice"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPayActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

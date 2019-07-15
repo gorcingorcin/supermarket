@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -145,7 +148,7 @@ public class PoS extends javax.swing.JFrame {
         txtPayed = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         txtBalance = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnPay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -362,9 +365,14 @@ public class PoS extends javax.swing.JFrame {
 
         jLabel16.setText("Balance");
 
-        jButton2.setBackground(new java.awt.Color(51, 153, 0));
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton2.setText("Pay Invoice");
+        btnPay.setBackground(new java.awt.Color(51, 153, 0));
+        btnPay.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnPay.setText("Pay Invoice");
+        btnPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPayActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -400,7 +408,7 @@ public class PoS extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))))
+                                    .addComponent(btnPay, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))))
                         .addGap(89, 89, 89)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -430,7 +438,7 @@ public class PoS extends javax.swing.JFrame {
                     .addComponent(txtPayed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16)
                     .addComponent(txtBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -542,6 +550,65 @@ pos();
     private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceActionPerformed
+    //metoda koja spašava prodaju u tabelu Sales i upisuje datum
+    private void sales()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+        String date = dtf.format(now);
+        
+        String subtotal = txtSubtotal.getText();
+        String payed = txtPayed.getText();
+        String balance = txtBalance.getText();
+        int lastInsertedId = 0;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
+            String querry = "insert into sales(date, subtotal, pay, balance) values (?,?,?,?)";
+            insert = con1.prepareStatement(querry, Statement.RETURN_GENERATED_KEYS);
+            insert.setString(1, date);// izmjenjeno je ime varijable
+            insert.setString(2, subtotal);
+            insert.setString(3, payed);
+            insert.setString(4,balance) ;
+            
+            insert.executeUpdate();
+           //We need last inserted object's ID
+           
+           ResultSet generatedKey = insert.getGeneratedKeys();
+           
+           if(generatedKey.next())
+           {
+               lastInsertedId = generatedKey.getInt(1);              
+           }
+           JOptionPane.showMessageDialog(this,lastInsertedId);
+           
+           
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
+       
+        int payed = Integer.parseInt(txtPayed.getText());
+        int subtotal = Integer.parseInt(txtSubtotal.getText());
+        int balance = payed - subtotal;
+        
+        txtBalance.setText(String.valueOf(balance));
+        sales();
+    }//GEN-LAST:event_btnPayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -583,8 +650,8 @@ pos();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnPay;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
