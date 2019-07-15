@@ -42,38 +42,61 @@ public class PoS extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
 
-    //PRIKAZ PODATAKA U JTABLE
-    public void table_update() {
-        int c;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
-            //pst = con1.prepareStatement("select * from brand_table");
-            //ResultSet rs = pst.executeQuery();
-            //vraća broj kolona
-            ResultSetMetaData rsmd = rs.getMetaData();
-            c = rsmd.getColumnCount();
-            //vraća broj redova
-            DefaultTableModel d = (DefaultTableModel) table_category.getModel();
-            d.setRowCount(0);
-
-            //Implementira LIST<E>
-            while (rs.next()) {
-                Vector v2 = new Vector();
-                for (int i = 1; i < c; i++) {
-                    v2.add(rs.getString("id_brand"));//jer je izmjenjeno ime id-a u novoj tabeli da bi se moglo razlikovati
-                    v2.add(rs.getString("brand"));
-                    v2.add(rs.getString("status"));
+    //method pos checks if quantity requested is available
+    private void pos()
+    {
+        String name= txtProductCode.getText();
+            
+            
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                 con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
+                insert = con1.prepareStatement("select * from product where barcode =?");//uzima sve podatke za dati barkod koji je proslijeđen
+                insert.setString(1, name);
+                
+                rs=insert.executeQuery();
+                
+                while(rs.next())
+                {
+                    int currentQty;
+                    currentQty=rs.getInt("qty");
                     
+                    int price = Integer.parseInt(txtPrice.getText());
+                    int qtyEntered = Integer.parseInt(txtQuantity.getText());
+                    
+                    int total = price * qtyEntered;
+                    
+                    if(qtyEntered >= currentQty)
+                    {
+                        JOptionPane.showMessageDialog(this,"Current product "+"="+currentQty);
+                        JOptionPane.showMessageDialog(this,"Quantity entered not available!");
+                    }
+                    else
+                    {
+                        DefaultTableModel model = (DefaultTableModel)table_category.getModel();
+                        model.addRow(new Object[]
+                        {
+                        txtProductCode.getText(),
+                         txtProductName.getText(),
+                         txtPrice.getText(),
+                         txtQuantity.getText(),
+                         total,
+                        });
+                        
+                        txtProductCode.setText("");
+                         txtProductName.setText("");
+                         txtPrice.setText("");
+                         txtQuantity.setText("");
+                        txtProductCode.requestFocus();
+                        
+                    }
                 }
-                d.addRow(v2);
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
-
-        } catch (SQLException ex) {
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
             Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
         }
+               
     }
 
 
@@ -404,31 +427,8 @@ public class PoS extends javax.swing.JFrame {
     }//GEN-LAST:event_txtProductCodeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        try {
-            String brand = txtProductCode.getText();//izmjenjeno je ime varijable iz category u brand
-           
-            //konekcija
-            Class.forName("com.mysql.jdbc.Driver");
-            con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
-
-           /// pst = con1.prepareStatement("insert into brand_table(brand, status) values (?,?)");
-            //pst.setString(1, brand);// izmjenjeno je ime varijable
-           
-            //pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Brand sucessfully added!");
-            //funkcija se poziva radi prikaza odmah nakon dodavanja novog proizvoda
-            table_update();
-            //Moraju se očistiti varijable
-            txtProductCode.setText("");
-            
-            txtProductCode.requestFocus();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
-        }
+pos();
+       
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
