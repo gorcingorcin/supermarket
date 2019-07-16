@@ -35,7 +35,15 @@ public class PoS extends javax.swing.JFrame {
         initComponents();
         //table_update();//poziva ispis stavki iz baze u JTable i mora se zakomentarisat da ne radi probleme prilikom poziva iz klase PoS!
     }
-
+//U ovaj konstruktor saljem ime iz logina 
+    
+    String lname;
+  public PoS(String name) {
+        initComponents();
+        //table_update();//poziva ispis stavki iz baze u JTable i mora se zakomentarisat da ne radi probleme prilikom poziva iz klase PoS!
+        this.lname=name;
+        txtSeller.setText(lname);
+    }
     Connection con1;
     PreparedStatement insert;//promjena imena iz pst u insert za ovaj prozor jer se opodaci ubacuju
     ResultSet rs;
@@ -150,6 +158,7 @@ public class PoS extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         txtBalance = new javax.swing.JTextField();
         btnPay = new javax.swing.JButton();
+        txtSeller = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -184,6 +193,11 @@ public class PoS extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Cachier");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -375,6 +389,8 @@ public class PoS extends javax.swing.JFrame {
             }
         });
 
+        txtSeller.setText("jLabel17");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -382,12 +398,6 @@ public class PoS extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(268, 268, 268))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -410,7 +420,18 @@ public class PoS extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnPay, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))))
-                        .addGap(89, 89, 89)))
+                        .addGap(89, 89, 89))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(268, 268, 268))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(txtSeller)
+                                .addGap(197, 197, 197)))))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -421,7 +442,9 @@ public class PoS extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSeller))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -557,6 +580,7 @@ pos();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         String date = dtf.format(now);
+        String cashier =txtSeller.getText();
         
         String subtotal = txtSubtotal.getText();
         String payed = txtPayed.getText();
@@ -566,12 +590,13 @@ pos();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
-            String querry = "insert into sales(date, subtotal, pay, balance) values (?,?,?,?)";
+            String querry = "insert into sales(date,cashier, subtotal, pay, balance) values (?,?,?,?,?)";
             insert = con1.prepareStatement(querry, Statement.RETURN_GENERATED_KEYS);
             insert.setString(1, date);// izmjenjeno je ime varijable
-            insert.setString(2, subtotal);
-            insert.setString(3, payed);
-            insert.setString(4,balance) ;
+            insert.setString(2, cashier);
+            insert.setString(3, subtotal);
+            insert.setString(4, payed);
+            insert.setString(5,balance) ;
             
             insert.executeUpdate();
            //We need last inserted object's ID
@@ -668,6 +693,13 @@ pos();
         sales();
     }//GEN-LAST:event_btnPayActionPerformed
 
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+       Cashier ch = new Cashier();
+        this.hide();
+        ch.setVisible(true);
+    }//GEN-LAST:event_jLabel5MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -736,6 +768,7 @@ pos();
     private javax.swing.JTextField txtProductCode;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtQuantity;
+    private javax.swing.JLabel txtSeller;
     private javax.swing.JTextField txtSubtotal;
     // End of variables declaration//GEN-END:variables
 }
