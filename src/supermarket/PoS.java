@@ -6,6 +6,7 @@
 package supermarket;
 
 import com.sun.glass.events.KeyEvent;
+import java.awt.print.PrinterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -550,8 +551,8 @@ pos();
     private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceActionPerformed
-    //metoda koja spašava prodaju u tabelu Sales i upisuje datum
-    private void sales()
+    //metoda koju poziva klik na dugme PayInvoice
+    private void sales()//ova metoda ima 3 SQL querrija objasnjena ispod: upisuje u sales i sales_prduct + azurira kolicinu
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
@@ -561,7 +562,7 @@ pos();
         String payed = txtPayed.getText();
         String balance = txtBalance.getText();
         int lastInsertedId = 0;
-        
+        // 1 ovaj SQL upisuje podatke u tabelu Sales 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
@@ -582,7 +583,7 @@ pos();
                lastInsertedId = generatedKey.getInt(1);              
            }
            
-           //ovaj kod prikazuje stavke u JTabeli
+           //2 ovaj kod upisuje podatke u tabelu sales_product i prikazuje stavke u JTabeli
            int rows =table_category.getRowCount();
            
            String querry2 = "insert into sales_product(sales_id,product_id,sell_price,quantity, total) values (?,?,?,?,?)";
@@ -610,7 +611,7 @@ pos();
                
            }
            
-           //Ovaj SQL oduzima prodatu kolicinu od ukupne kolicine
+           //3 Ovaj SQL oduzima prodatu kolicinu od ukupne kolicine
             String querry3 = "update product set qty =qty-? where barcode=?";
            insert = con1.prepareStatement(querry3);
            
@@ -638,13 +639,22 @@ pos();
         }
             
         
+    }
+    //method for invoice printing
+    private void print()
+    {
+        String subtotal = txtSubtotal.getText();
+        String payed = txtPayed.getText();
+        String balance = txtBalance.getText();
         
-        
-        
+        try {
+            //creating object of a class print sending data in a constructor of print class
+            new print(subtotal, payed, balance, table_category.getModel()).setVisible(true);
+        } catch (PrinterException ex) {
+            Logger.getLogger(PoS.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
-    
-    
     
     
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
@@ -654,6 +664,7 @@ pos();
         int balance = payed - subtotal;
         
         txtBalance.setText(String.valueOf(balance));
+        print();
         sales();
     }//GEN-LAST:event_btnPayActionPerformed
 
