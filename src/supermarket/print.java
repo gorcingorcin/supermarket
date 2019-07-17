@@ -44,7 +44,7 @@ public class print extends javax.swing.JFrame {
          {
              String product = (String) tableModel.getValueAt(i,1);
              String price = (String) tableModel.getValueAt(i,2);
-             int total = (int) tableModel.getValueAt(i,4);
+             Double total = (Double) tableModel.getValueAt(i,4);
              
              txtPrint.setText(txtPrint.getText()+product +"\t"+price+"\t"+total+"\n");
          }

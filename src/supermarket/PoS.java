@@ -5,8 +5,14 @@
  */
 package supermarket;
 
+import java.lang.Math.*;
 import com.sun.glass.events.KeyEvent;
 import java.awt.print.PrinterException;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -60,14 +66,14 @@ public class PoS extends javax.swing.JFrame {
     //method pos checks if quantity requested is available
     private void pos()
     {
-        String name= txtProductCode.getText();
+        String barcode= txtProductCode.getText();
             
             
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                  con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
                 insert = con1.prepareStatement("select * from product where barcode =?");//uzima sve podatke za dati barkod koji je proslijeđen
-                insert.setString(1, name);
+                insert.setString(1, barcode);
                 
                 rs=insert.executeQuery();
                 
@@ -76,10 +82,11 @@ public class PoS extends javax.swing.JFrame {
                     int currentQty;
                     currentQty=rs.getInt("qty");
                     
-                    int price = Integer.parseInt(txtPrice.getText());
+                    Double price = Double.parseDouble(txtPrice.getText());
                     int qtyEntered = Integer.parseInt(txtQuantity.getText());
                     
-                    int total = price * qtyEntered;
+                    Double total = price * qtyEntered;
+                    Double roundTotal=Math.round(total*100)/100.0;//!!!Zaokružuje total na 2 decimale!!!
                     
                     if(qtyEntered >= currentQty)
                     {
@@ -95,17 +102,18 @@ public class PoS extends javax.swing.JFrame {
                          txtProductName.getText(),
                          txtPrice.getText(),
                          txtQuantity.getText(),
-                         total,
+                         roundTotal,
                         });
                         
-                        int sum=0;
+                        Double sum=0.0;
+                        Double roundSum=Math.round(sum*100)/100.0;
                         
                         for(int i=0; i<table_category.getRowCount(); i++)
                         {
-                            sum = sum+Integer.parseInt(table_category.getValueAt(i,4).toString());                                                    
+                            roundSum = sum+Double.parseDouble(table_category.getValueAt(i,4).toString());                                                    
                         
                         }
-                        txtSubtotal.setText(Integer.toString(sum));
+                        txtSubtotal.setText(Double.toString(roundSum));
                         
                         
                         txtProductCode.setText("");
@@ -134,7 +142,6 @@ public class PoS extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -189,6 +196,11 @@ public class PoS extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Exit");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -198,10 +210,6 @@ public class PoS extends javax.swing.JFrame {
                 jLabel5MouseClicked(evt);
             }
         });
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Category");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -219,7 +227,6 @@ public class PoS extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,15 +244,13 @@ public class PoS extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(53, 53, 53)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addGap(40, 40, 40)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
         );
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
@@ -463,7 +468,7 @@ public class PoS extends javax.swing.JFrame {
                     .addComponent(jLabel16)
                     .addComponent(txtBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -534,7 +539,7 @@ pos();
     private void txtPayedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPayedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPayedActionPerformed
-
+//method called when  Enter key pressed in first txtfieled
     private void txtProductCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductCodeKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER)//kada se unese kod i pritisne ENTER trebaju se izbaciti podaci
         {
@@ -618,20 +623,21 @@ pos();
            String productId="";
            String price="";
            String quantity="";
-           int total=0;
-           
+           Double total=0.0;
+           //ispis podataka u tabelu sa umnoškom
            for(int i = 0; i<table_category.getRowCount(); i++)
            {
                productId=(String)table_category.getValueAt(i, 0);
                price=(String)table_category.getValueAt(i, 2);
                quantity=(String)table_category.getValueAt(i, 3);
-               total=(int)table_category.getValueAt(i, 4);
+               total=(Double)table_category.getValueAt(i, 4);
+               Double roundTotal = Math.round(total+100)/100.0;//zaokruživanje 2 decimale
                
                insert.setInt(1,lastInsertedId);
                insert.setString(2,productId);
                insert.setString(3,price);
                insert.setString(4,quantity);
-               insert.setInt(5,total);
+               insert.setDouble(5,roundTotal);
                insert.executeUpdate();
                
            }
@@ -681,14 +687,16 @@ pos();
         
     }
     
-    
+    //PayInvoice btn
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
        
-        int payed = Integer.parseInt(txtPayed.getText());
-        int subtotal = Integer.parseInt(txtSubtotal.getText());
-        int balance = payed - subtotal;
+        Double payed = Double.parseDouble(txtPayed.getText());
+        Double roundPayed =Math.round(payed*100)/100.0;
+        Double subtotal = Double.parseDouble(txtSubtotal.getText());
+        Double balance = payed - subtotal;
+        Double roundBalance=Math.round(balance*100)/100.0; //!!!Zaokružuje vrijednost na 2 decimale!!!
         
-        txtBalance.setText(String.valueOf(balance));
+        txtBalance.setText(String.valueOf(roundBalance));
         print();
         sales();
     }//GEN-LAST:event_btnPayActionPerformed
@@ -699,6 +707,11 @@ pos();
         this.hide();
         ch.setVisible(true);
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        System.exit(1);
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -754,7 +767,6 @@ pos();
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
