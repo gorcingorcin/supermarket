@@ -7,7 +7,7 @@ package supermarket;
 
 import java.awt.print.PrinterException;
 import javax.swing.table.TableModel;
-import supermarket.PoS;
+import supermarket.Payment;
 
 /**
  *
@@ -37,7 +37,7 @@ public class print extends javax.swing.JFrame {
         
         
         txtPrint.setText(txtPrint.getText()+"************************************************************\n");
-         txtPrint.setText(txtPrint.getText()+"*****************SUPERMARKET*******************************\n");
+         txtPrint.setText(txtPrint.getText()+"*****************SellingDigital*******************************\n");
          txtPrint.setText(txtPrint.getText()+"\n");
          txtPrint.setText(txtPrint.getText()+"PRODUCT"+"\t"+"PRICE"+"\t"+"TOTAL"+"\n");
          
@@ -65,8 +65,8 @@ public class print extends javax.swing.JFrame {
          txtPrint.print();
     }
     
-    public PoS window(){
-        PoS ps = new PoS();
+    public Payment window(){
+        Payment ps = new Payment();
         this.hide();
         ps.setVisible(true);
         return ps;

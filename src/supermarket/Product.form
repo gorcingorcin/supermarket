@@ -69,17 +69,24 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel4" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel7" min="-2" pref="125" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel2" min="-2" pref="173" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="0" min="-2" pref="153" max="-2" attributes="0"/>
+                              <Component id="jLabel5" alignment="0" min="-2" pref="153" max="-2" attributes="0"/>
+                              <Component id="jLabel3" alignment="0" min="-2" pref="153" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="0" min="-2" pref="153" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="31" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="0" pref="48" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -126,7 +133,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Category"/>
+            <Property name="text" type="java.lang.String" value="Product type"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel2MouseClicked"/>
@@ -137,10 +144,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="24" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            <Property name="text" type="java.lang.String" value="Payment"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder roundedCorners="true" thickness="3"/>
+              </Border>
             </Property>
-            <Property name="text" type="java.lang.String" value="POS"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel3MouseClicked"/>
@@ -168,7 +177,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Cachier"/>
+            <Property name="text" type="java.lang.String" value="Vendor"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel5MouseClicked"/>
@@ -182,7 +191,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Brand"/>
+            <Property name="text" type="java.lang.String" value="Product brand"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel7MouseClicked"/>
@@ -195,7 +204,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="48" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Supermarket"/>
+        <Property name="text" type="java.lang.String" value="SellingDigital"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
@@ -380,7 +389,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
-            <Property name="text" type="java.lang.String" value="category"/>
+            <Property name="text" type="java.lang.String" value="type"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel14">
@@ -512,7 +521,7 @@
                 <Column editable="true" title="Id_product" type="java.lang.Integer"/>
                 <Column editable="true" title="Product" type="java.lang.String"/>
                 <Column editable="true" title="Description" type="java.lang.String"/>
-                <Column editable="true" title="Category" type="java.lang.Integer"/>
+                <Column editable="true" title="Type" type="java.lang.Integer"/>
                 <Column editable="true" title="Brand" type="java.lang.Integer"/>
                 <Column editable="true" title="Cost price" type="java.lang.Integer"/>
                 <Column editable="true" title="Retail price" type="java.lang.Integer"/>

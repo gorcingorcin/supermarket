@@ -21,12 +21,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author gorcin.stojanovic
  */
-public class Cashier extends javax.swing.JFrame {
+public class ProductType extends javax.swing.JFrame {
 
     /**
      * Creates new form Category
      */
-    public Cashier() {
+    public ProductType() {
         initComponents();
         table_update();//poziva ispis stavki iz baze u JTable
     }
@@ -47,7 +47,7 @@ public class Cashier extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
-            pst = con1.prepareStatement("select * from cashier");
+            pst = con1.prepareStatement("select * from category");
             ResultSet rs = pst.executeQuery();
             //vraća broj kolona
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -60,18 +60,18 @@ public class Cashier extends javax.swing.JFrame {
             while (rs.next()) {
                 Vector v2 = new Vector();
                 for (int i = 1; i < c; i++) {
-                    v2.add(rs.getString("id"));//jer je izmjenjeno ime id-a u novoj tabeli da bi se moglo razlikovati
-                    v2.add(rs.getString("username"));
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("category"));
                     v2.add(rs.getString("status"));
                     
                 }
                 d.addRow(v2);
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -91,13 +91,11 @@ public class Cashier extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
+        txtCat = new javax.swing.JTextField();
         txtStatus = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JPasswordField();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_category = new javax.swing.JTable();
 
@@ -116,7 +114,7 @@ public class Cashier extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Category");
+        jLabel2.setText("Product type");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -124,8 +122,9 @@ public class Cashier extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("POS");
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel3.setText("Payment");
+        jLabel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel3MouseClicked(evt);
@@ -143,7 +142,7 @@ public class Cashier extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Cachier");
+        jLabel5.setText("Vendor");
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel5MouseClicked(evt);
@@ -152,7 +151,7 @@ public class Cashier extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Brand");
+        jLabel7.setText("Product brand");
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel7MouseClicked(evt);
@@ -165,14 +164,20 @@ public class Cashier extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 48, Short.MAX_VALUE))
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,31 +188,31 @@ public class Cashier extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(39, 39, 39)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(80, 80, 80)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel8.setText("Supermarket");
+        jLabel8.setText("SellingDigital");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel9.setText("Cashier");
+        jLabel9.setText("Type");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registration", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jLabel10.setText("Username");
+        jLabel10.setText("Type");
 
         jLabel11.setText("status");
 
-        txtUsername.setText("\n");
-        txtUsername.addActionListener(new java.awt.event.ActionListener() {
+        txtCat.setText("\n");
+        txtCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsernameActionPerformed(evt);
+                txtCatActionPerformed(evt);
             }
         });
 
@@ -234,35 +239,28 @@ public class Cashier extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setText("Password");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addGap(20, 20, 20))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                        .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel12))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(53, 53, 53)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsername)
-                            .addComponent(txtPassword))))
+                            .addComponent(txtCat)
+                            .addComponent(txtStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addGap(19, 19, 19)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -275,21 +273,20 @@ public class Cashier extends javax.swing.JFrame {
                         .addGap(6, 6, 6))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addComponent(txtCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addGap(26, 26, 26)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel11))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap())
+                    .addComponent(jButton3))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         table_category.setModel(new javax.swing.table.DefaultTableModel(
@@ -297,7 +294,7 @@ public class Cashier extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "User", "Status"
+                "ID", "Type", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -332,7 +329,7 @@ public class Cashier extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -357,43 +354,40 @@ public class Cashier extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+    private void txtCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsernameActionPerformed
-
+    }//GEN-LAST:event_txtCatActionPerformed
+//Add button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
-            String user = txtUsername.getText();//izmjenjeno za registraciju korisnika
-            String password = txtPassword.getText();
+            String category = txtCat.getText();
             String status = txtStatus.getSelectedItem().toString();
 
             //konekcija
             Class.forName("com.mysql.jdbc.Driver");
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
 
-            pst = con1.prepareStatement("insert into cashier(username,password, status) values (?,?,?)");
-            pst.setString(1, user);// izmjenjeno je ime varijable
-            pst.setString(2, password);
-            pst.setString(3, status);
+            pst = con1.prepareStatement("insert into category(category, status) values (?,?)");
+            pst.setString(1, category);
+            pst.setString(2, status);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "New user sucessfully added!");
+            JOptionPane.showMessageDialog(null, "Category sucessfully added!");
             //funkcija se poziva radi prikaza odmah nakon dodavanja novog proizvoda
             table_update();
             //Moraju se očistiti varijable
-            txtUsername.setText("");
-            txtPassword.setText("");
+            txtCat.setText("");
             txtStatus.setSelectedIndex(-1);
-            txtUsername.requestFocus();
+            txtCat.requestFocus();
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+//Click on table
     private void table_categoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_categoryMouseClicked
 
         //Editovanje tabele
@@ -401,7 +395,7 @@ public class Cashier extends javax.swing.JFrame {
         int selectedIndex = table_category.getSelectedRow();
 
         //postavlja tekst u labelu na osnovu selektovanog reda na klik miša
-        txtUsername.setText(d1.getValueAt(selectedIndex, 1).toString());
+        txtCat.setText(d1.getValueAt(selectedIndex, 1).toString());
         txtStatus.setSelectedItem(d1.getValueAt(selectedIndex, 2).toString());
     }//GEN-LAST:event_table_categoryMouseClicked
 
@@ -411,7 +405,7 @@ public class Cashier extends javax.swing.JFrame {
         int selectedIndex = table_category.getSelectedRow();
         //parsira odabrani objekt u intedžer iz kolone tri
         int id = Integer.parseInt(d1.getValueAt(selectedIndex, 0).toString());
-        String brand = txtUsername.getText();//izmjena varijable u brand
+        String category = txtCat.getText();
         String status = txtStatus.getSelectedItem().toString();
 
         try {
@@ -419,28 +413,28 @@ public class Cashier extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", "administrator");
 
-        pst = con1.prepareStatement("update brand_table set brand=?, status=? where id_brand=?");//izmjenjena imena tabele i kolone iz category brand
-        pst.setString(1, brand);//izmjena varijable u brand; sve što je uneseno u varijablu bit će injektovano u SQL
+        pst = con1.prepareStatement("update category set category=?, status=? where id=?");
+        pst.setString(1, category);
         pst.setString(2, status);
         pst.setInt(3, id); 
         pst.executeUpdate();
-        JOptionPane.showMessageDialog(null, "Brand sucessfully updated!");//izmjenjeno ime varijable
+        JOptionPane.showMessageDialog(null, "Category sucessfully updated!");
         //funkcija se poziva radi prikaza odmah nakon dodavanja novog proizvoda
         table_update();
         //Moraju se očistiti varijable
-        txtUsername.setText("");
+        txtCat.setText("");
         txtStatus.setSelectedIndex(-1);
-        txtUsername.requestFocus();
+        txtCat.requestFocus();
             
                      
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
         }
        
 
@@ -462,56 +456,55 @@ public class Cashier extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 con1=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket","root","administrator");
-                pst =con1.prepareStatement("delete from brand_table where id_brand=?");//izmjena tabele i kolone
+                pst =con1.prepareStatement("delete from category where id=?");
                 pst.setInt(1, id);
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Brand sucessfully deleted from a database!");//izmjena poruke
+                JOptionPane.showMessageDialog(null, "Category sucessfully deleted from a database!");
                 //funkcija se poziva radi prikaza odmah nakon dodavanja novog proizvoda
                 table_update();
                 //Moraju se očistiti varijable
-                txtUsername.setText("");
+                txtCat.setText("");
                 txtStatus.setSelectedIndex(-1);
-                txtUsername.requestFocus();
+                txtCat.requestFocus();
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
-                Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                Logger.getLogger(Cashier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProductType.class.getName()).log(Level.SEVERE, null, ex);
             }
            
            
         }
         
     }//GEN-LAST:event_jButton3ActionPerformed
-//Mouse click on Brand from main menu
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-      Cashier b = new Cashier();
-       this.hide();
-       b.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
-    //Mouse clicked on product from main menu
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-       Product p = new Product();
-       this.hide();
-       p.setVisible(true);
-    }//GEN-LAST:event_jLabel1MouseClicked
-
+//Mouse Click on Category from main menu
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        Category c = new Category();
-        this.hide();
-        c.setVisible(true);
+       ProductType c = new ProductType();
+       this.hide();
+       c.setVisible(true);
     }//GEN-LAST:event_jLabel2MouseClicked
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        Product p = new Product();
+       this.hide();
+       p.setVisible(true);
+       
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        ProductBrand b = new ProductBrand();
+        this.hide();
+        b.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        
-         Cashier ch = new Cashier();
+        // TODO add your handling code here:
+         Vendor ch = new Vendor();
         this.hide();
         ch.setVisible(true);
-        
-        
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
@@ -543,23 +536,21 @@ public class Cashier extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cashier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cashier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cashier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cashier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProductType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Cashier().setVisible(true);
+                new ProductType().setVisible(true);
             }
         });
     }
@@ -571,7 +562,6 @@ public class Cashier extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -583,8 +573,7 @@ public class Cashier extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table_category;
-    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtCat;
     private javax.swing.JComboBox<String> txtStatus;
-    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

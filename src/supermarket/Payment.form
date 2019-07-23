@@ -53,7 +53,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="302" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
@@ -62,16 +62,16 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel8" min="-2" pref="401" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="txtSeller" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -127,17 +127,19 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel4" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="125" max="-2" attributes="0"/>
-                      <Component id="jLabel7" min="-2" pref="125" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jLabel5" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jLabel3" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="jLabel4" alignment="0" min="-2" pref="153" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="48" max="32767" attributes="0"/>
+                  <EmptySpace pref="85" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -152,7 +154,7 @@
                   <Component id="jLabel1" min="-2" pref="37" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Component id="jLabel5" min="-2" pref="37" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" pref="37" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jLabel4" min="-2" pref="37" max="-2" attributes="0"/>
@@ -184,7 +186,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Category"/>
+            <Property name="text" type="java.lang.String" value="Product type"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel2MouseClicked"/>
@@ -195,10 +197,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="24" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            <Property name="text" type="java.lang.String" value="Payment"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder roundedCorners="true" thickness="3"/>
+              </Border>
             </Property>
-            <Property name="text" type="java.lang.String" value="POS"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
@@ -223,7 +227,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Cachier"/>
+            <Property name="text" type="java.lang.String" value="Vendor"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel5MouseClicked"/>
@@ -237,7 +241,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Brand"/>
+            <Property name="text" type="java.lang.String" value="Product brand"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel7MouseClicked"/>
@@ -250,7 +254,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="48" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Supermarket"/>
+        <Property name="text" type="java.lang.String" value="SellingDigital"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
